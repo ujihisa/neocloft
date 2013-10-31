@@ -5,17 +5,38 @@
     :implements [org.bukkit.event.Listener]
     :exposes-methods {onEnable -onEnable}))
 
+(def event-table (atom {}))
+
 (defn -onEnable [self]
-  (-> self
-    (.getServer)
-    (.getPluginManager)
+  (clojure.lang.Compiler/loadFile "/tmp/sample.clj")
+  (doseq [[k v] (ns-interns 'neocloft.sample)
+          :when (= k 'handler)]
+    ; deref a var, and deref the underlying atom
+    (swap! event-table assoc "sample.clj" @@v))
+
+  (let [pm (-> self (.getServer) (.getPluginManager))
+        listener (com.github.ujihisa.Neocloft.ClojureListner.)]
     (.registerEvent
+      pm
       org.bukkit.event.player.PlayerJoinEvent
-      (com.github.ujihisa.Neocloft.ClojureListner.)
+      listener
       org.bukkit.event.EventPriority/NORMAL
       (reify org.bukkit.plugin.EventExecutor
         (execute [_ l evt]
-          (prn 'player-join-event-2)))
+          (doseq [[script-name handler] @event-table
+                  :let [f (handler org.bukkit.event.player.PlayerJoinEvent)]]
+            (f evt (.getPlayer evt)))))
+      self)
+    (.registerEvent
+      pm
+      org.bukkit.event.block.BlockBreakEvent
+      listener
+      org.bukkit.event.EventPriority/NORMAL
+      (reify org.bukkit.plugin.EventExecutor
+        (execute [_ l evt]
+          (doseq [[script-name handler] @event-table
+                  :let [f (handler org.bukkit.event.block.BlockBreakEvent)]]
+            (f evt (.getBlock evt)))))
       self)))
 
 (defn -onDisable [self]
