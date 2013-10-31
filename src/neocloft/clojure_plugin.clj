@@ -1,5 +1,6 @@
 (ns neocloft.clojure-plugin
   (:require [clojure.java.io :as io])
+  (:require [clojure.string :as s])
   (:gen-class
     :name com.github.ujihisa.Neocloft.ClojurePlugin
     :extends org.bukkit.plugin.java.JavaPlugin
@@ -7,6 +8,7 @@
     :exposes-methods {onEnable -onEnable}))
 
 (def event-table (atom {}))
+(def plugin-obj (ref nil))
 
 ; helper for user plugins
 (defmacro defh [evt-name handler args & body]
@@ -15,15 +17,35 @@
           ~(symbol (str "org.bukkit.event." evt-name))
           (fn ~args ~@body)))
 
+(defn sec [n]
+  (int (* 20 n)))
+
+(defmacro later [tick & exps]
+  `(.scheduleSyncDelayedTask
+     (org.bukkit.Bukkit/getScheduler)
+     @neocloft.clojure-plugin/plugin-obj
+     (fn [] ~@exps)
+     tick))
+
+(defn- clj-filename->ns-symbol
+  "aaa_bbb.clj as string -> 'neocloft.aaa-bbb as symbol"
+  [clj-filename]
+  (assert (.endsWith clj-filename ".clj"))
+  (let [base-name (-> clj-filename
+                    (s/replace #"\.clj" "")
+                    (s/replace #"_" "-"))]
+    (symbol (format "neocloft.%s" base-name))))
+
 (defn -onEnable [self]
+  (dosync (ref-set plugin-obj self))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
     (prn 'load-file
-         (clojure.lang.Compiler/loadFile (.getAbsolutePath file))))
-  (doseq [[k v] (ns-interns 'neocloft.sample)
-          :when (= k 'handler)]
-    ; deref a var, and deref the underlying atom
-    (swap! event-table assoc "sample.clj" @@v))
+         (clojure.lang.Compiler/loadFile (.getAbsolutePath file)))
+    (doseq [[k v] (ns-interns (clj-filename->ns-symbol "sample.clj"))
+                  :when (= k 'handler)]
+      ; deref a var, and deref the underlying atom
+      (swap! event-table assoc (.getName file) @@v)))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]

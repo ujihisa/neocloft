@@ -2,6 +2,7 @@
   (:use [neocloft.clojure-plugin :only [defh]])
   (:import [org.bukkit Material]))
 (def handler (atom {}))
+; vim: lispwords+=defh,later :
 
 (defh player.PlayerToggleSprintEvent handler [evt player]
   (if (and (.isSprinting evt) (not (.getPassenger player)))
@@ -9,5 +10,3 @@
       (.setCancelled evt true)
       (.setWalkSpeed player 0.4))
     (.setWalkSpeed player 0.2)))
-
-; vim: lispwords+=defh :
