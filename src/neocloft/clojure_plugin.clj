@@ -25,8 +25,7 @@
     ; deref a var, and deref the underlying atom
     (swap! event-table assoc "sample.clj" @@v))
 
-  (let [pm (-> self (.getServer) (.getPluginManager))
-        listener (com.github.ujihisa.Neocloft.ClojureListner.)]
+  (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]
             {(fn [^org.bukkit.event.player.PlayerEvent evt] (.getPlayer evt))
             [org.bukkit.event.player.AsyncPlayerChatEvent
@@ -97,9 +96,7 @@
             type-evt types-evt]
       (try
         (.registerEvent
-          pm
-          type-evt
-          listener
+          pm type-evt self
           org.bukkit.event.EventPriority/NORMAL
           (reify org.bukkit.plugin.EventExecutor
               (execute [_ l evt]
