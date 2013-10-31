@@ -7,6 +7,7 @@
 
 (def event-table (atom {}))
 
+
 (defn -onEnable [self]
   (clojure.lang.Compiler/loadFile "/tmp/sample.clj")
   (doseq [[k v] (ns-interns 'neocloft.sample)
@@ -16,28 +17,23 @@
 
   (let [pm (-> self (.getServer) (.getPluginManager))
         listener (com.github.ujihisa.Neocloft.ClojureListner.)]
-    (.registerEvent
-      pm
-      org.bukkit.event.player.PlayerJoinEvent
-      listener
-      org.bukkit.event.EventPriority/NORMAL
-      (reify org.bukkit.plugin.EventExecutor
-        (execute [_ l evt]
-          (doseq [[script-name handler] @event-table
-                  :let [f (handler org.bukkit.event.player.PlayerJoinEvent)]]
-            (f evt (.getPlayer evt)))))
-      self)
-    (.registerEvent
-      pm
-      org.bukkit.event.block.BlockBreakEvent
-      listener
-      org.bukkit.event.EventPriority/NORMAL
-      (reify org.bukkit.plugin.EventExecutor
-        (execute [_ l evt]
-          (doseq [[script-name handler] @event-table
-                  :let [f (handler org.bukkit.event.block.BlockBreakEvent)]]
-            (f evt (.getBlock evt)))))
-      self)))
+    (doseq [[helper-f types-evt]
+            {(fn [^org.bukkit.event.player.PlayerEvent evt] (.getPlayer evt))
+             [org.bukkit.event.player.PlayerJoinEvent]
+             (fn [^org.bukkit.event.block.BlockEvent evt] (.getBlock evt))
+             [org.bukkit.event.block.BlockBreakEvent] }
+            type-evt types-evt]
+      (.registerEvent
+        pm
+        type-evt
+        listener
+        org.bukkit.event.EventPriority/NORMAL
+        (reify org.bukkit.plugin.EventExecutor
+            (execute [_ l evt]
+              (doseq [[script-name handler] @event-table
+                      :let [f (handler type-evt)]]
+                (f evt (helper-f evt)))))
+        self))))
 
 (defn -onDisable [self]
   (prn 'clojure-on-disable self))
