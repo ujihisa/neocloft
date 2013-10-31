@@ -6,13 +6,20 @@
     :exposes-methods {onEnable -onEnable}))
 
 (defn -onEnable [self]
-  (prn 'clojure-on-enable)
-  (let [x (-> self (.getServer) (.getPluginManager))]
-    (prn 'x x)
-    (.registerEvents x (com.github.ujihisa.Neocloft.ClojureListner.) self)))
+  (-> self
+    (.getServer)
+    (.getPluginManager)
+    (.registerEvent
+      org.bukkit.event.player.PlayerJoinEvent
+      (com.github.ujihisa.Neocloft.ClojureListner.)
+      org.bukkit.event.EventPriority/NORMAL
+      (reify org.bukkit.plugin.EventExecutor
+        (execute [_ l evt]
+          (prn 'player-join-event-2)))
+      self)))
 
 (defn -onDisable [self]
-  (prn 'clojure-on-disable))
+  (prn 'clojure-on-disable self))
 
 (defn -onCommand [self sender command label args]
   (prn 'clojure-on-command sender command label args))
