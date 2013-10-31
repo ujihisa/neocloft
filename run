@@ -1,0 +1,7 @@
+#!/bin/sh
+BINDIR=$(dirname "$(readlink -fn "$0")")
+cd "$BINDIR"
+#exec java -Xms1024M -Xmx1024M -jar craftbukkit.jar -o true
+#exec java -Xmx4096M -jar craftbukkit.jar -o true
+#exec java -Xmx1024M -jar craftbukkit.jar -o true
+exec java -Xmx1024M -cp plugins/neocloft-1.0.0-SNAPSHOT-standalone.jar:craftbukkit.jar org.bukkit.craftbukkit.Main -o true

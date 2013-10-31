@@ -1,0 +1,7 @@
+name: neocloft
+#main: com.github.ujihisa.Neocloft.JavaDispatcher
+main: com.github.ujihisa.Neocloft.ClojurePlugin
+version: 1.0.0
+website: http://ujihisa.blogspot.com
+author: Tatsuhiro Ujihisa
+description: ask @ujm
