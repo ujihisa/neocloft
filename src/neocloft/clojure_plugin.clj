@@ -7,6 +7,11 @@
 
 (def event-table (atom {}))
 
+(defmacro defh [evt-name handler args & body]
+  `(swap! ~handler
+          assoc
+          ~(symbol (str "org.bukkit.event." evt-name))
+          (fn ~args ~@body)))
 
 (defn -onEnable [self]
   (clojure.lang.Compiler/loadFile "/tmp/sample.clj")

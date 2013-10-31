@@ -1,11 +1,13 @@
-(ns neocloft.sample)
-
+(ns neocloft.sample
+  (:use [neocloft.clojure-plugin :only [defh]]))
 (def handler (atom {}))
-(swap! handler assoc org.bukkit.event.player.PlayerJoinEvent
-       (fn [evt player]
-         (prn 'welcome-to-our-server!)
-         (prn (.getName player))))
-(swap! handler assoc org.bukkit.event.block.BlockBreakEvent
-       (fn [evt block]
-         (prn 'you-are-breaking)
-         (prn (.getType block))))
+
+(defh player.PlayerJoinEvent handler [evt player]
+  (prn 'welcome-to-our-server!)
+  (prn (.getName player)))
+
+(defh block.BlockBreakEvent handler [evt block]
+  (prn 'you-are-breaking)
+  (prn (.getType block)))
+
+; vim: lispwords+=defh :
