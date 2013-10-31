@@ -114,5 +114,5 @@
 (defn -onDisable [self]
   (prn 'clojure-on-disable self))
 
-(defn -onCommand [self sender command label args]
+#_(defn -onCommand [self sender command label args]
   (prn 'clojure-on-command sender command label args))
