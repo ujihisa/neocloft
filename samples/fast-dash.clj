@@ -1,4 +1,4 @@
-(ns neocloft.samples.fast-dash
+(ns neocloft.fast-dash
   (:use [neocloft.clojure-plugin :only [defh]])
   (:import [org.bukkit Material]))
 (def handler (atom {}))
