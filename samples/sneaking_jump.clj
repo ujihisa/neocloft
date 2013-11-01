@@ -1,4 +1,4 @@
-(ns neocloft.samples.sneaking-jump
+(ns neocloft.sneaking-jump
   (:use [neocloft.clojure-plugin :only [defh]])
   (:import [org.bukkit Material]))
 (def handler (atom {}))
