@@ -25,7 +25,7 @@
      (org.bukkit.Bukkit/getScheduler)
      @neocloft.clojure-plugin/plugin-obj
      (fn [] ~@exps)
-     tick))
+     ~tick))
 
 (defn- clj-filename->ns-symbol
   "aaa_bbb.clj as string -> 'neocloft.aaa-bbb as symbol"
