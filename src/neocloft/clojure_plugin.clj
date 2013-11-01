@@ -42,7 +42,7 @@
           :when (.endsWith (.getName file) ".clj")]
     (prn 'load-file
          (clojure.lang.Compiler/loadFile (.getAbsolutePath file)))
-    (doseq [[k v] (ns-interns (clj-filename->ns-symbol "sample.clj"))
+    (doseq [[k v] (ns-interns (clj-filename->ns-symbol (.getName file)))
                   :when (= k 'handler)]
       ; deref a var, and deref the underlying atom
       (swap! event-table assoc (.getName file) @@v)))
