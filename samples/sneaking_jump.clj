@@ -24,5 +24,4 @@
     (when (= 3 (@player-sneak-counter player))
       (.setVelocity player (let [v (.getVelocity player)]
                              (.setY v (+ 1.0 (.getY v)))
-                             v)))
-    (prn (get @player-sneak-counter player 0))))
+                             v)))))
