@@ -11,5 +11,6 @@
     (dosync
       (ref-set
         player-sneak-counter
-        (assoc player (inc (get @player-sneak-counter player 0)))))
+        (assoc player-sneak-counter player
+               (inc (get @player-sneak-counter player 0)))))
     (prn (get @player-sneak-counter player 0))))
