@@ -40,8 +40,7 @@
   (dosync (ref-set plugin-obj self))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
-    (prn 'load-file
-         (clojure.lang.Compiler/loadFile (.getAbsolutePath file)))
+    (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
     (doseq [[k v] (ns-interns (clj-filename->ns-symbol (.getName file)))
                   :when (= k 'handler)]
       ; deref a var, and deref the underlying atom
@@ -128,7 +127,7 @@
                   (f evt (helper-f evt)))))
           self)
         (catch org.bukkit.plugin.IllegalPluginAccessException e
-          (prn 'failed type-evt))))))
+          (prn 'ignoring type-evt))))))
 
 (defn -onDisable [self]
   (prn 'clojure-on-disable self))
