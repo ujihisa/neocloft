@@ -41,10 +41,10 @@
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
-    (doseq [[k v] (ns-interns (clj-filename->ns-symbol (.getName file)))
-                  :when (= k 'handler)]
-      ; deref a var, and deref the underlying atom
-      (swap! event-table assoc (.getName file) @@v)))
+    (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
+      (when-let [handler (hashmap 'handler)]
+        ; deref a var, and deref the underlying atom
+        (swap! event-table assoc (.getName file) @@v))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]
