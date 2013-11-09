@@ -2,6 +2,7 @@
   (:use [neocloft.clojure-plugin :only [defh]])
   (:import [org.bukkit Material]))
 (def handler (atom {}))
+(def worlds #{"world"})
 ; vim: lispwords+=defh,later :
 
 (defh player.PlayerToggleSprintEvent handler [evt player]

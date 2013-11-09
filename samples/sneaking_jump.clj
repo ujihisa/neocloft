@@ -2,6 +2,7 @@
   (:use [neocloft.clojure-plugin :only [defh later sec]])
   (:import [org.bukkit Material]))
 (def handler (atom {}))
+(def worlds #{"world"})
 ; vim: lispwords+=defh,later :
 
 (def player-sneak-counter (ref {}))
