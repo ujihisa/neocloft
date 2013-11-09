@@ -128,7 +128,7 @@
                         :let [f (handler type-evt)]
                         :when f]
                   (let [obj (helper-f evt)]
-                    (when (contains? worlds (.getWorld obj))
+                    (when (contains? worlds (.getName (.getWorld obj)))
                       (f evt obj))))))
           self)
         (catch org.bukkit.plugin.IllegalPluginAccessException e
