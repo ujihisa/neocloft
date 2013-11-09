@@ -127,7 +127,9 @@
                 (doseq [[script-name [worlds handler]] @event-table
                         :let [f (handler type-evt)]
                         :when f]
-                  (f evt (helper-f evt)))))
+                  (let [obj (helper-f evt)]
+                    (when (contains? worlds (.getWorld obj))
+                      (f evt obj))))))
           self)
         (catch org.bukkit.plugin.IllegalPluginAccessException e
           (prn 'ignoring type-evt))))))
