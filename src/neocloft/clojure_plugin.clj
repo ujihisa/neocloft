@@ -45,7 +45,7 @@
       (if-let [handler (hashmap 'handler)]
         (if-let [worlds (hashmap 'worlds)]
           ; @@ for (1) deref a var, and (2) deref the underlying atom
-          (swap! event-table assoc (.getName file) [worlds @@handler])
+          (swap! event-table assoc (.getName file) [@@worlds @@handler])
           (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
         (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
 
