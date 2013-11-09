@@ -44,7 +44,7 @@
     (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
       (when-let [handler (hashmap 'handler)]
         ; deref a var, and deref the underlying atom
-        (swap! event-table assoc (.getName file) @@v))))
+        (swap! event-table assoc (.getName file) @@handler))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]
