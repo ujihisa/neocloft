@@ -42,9 +42,12 @@
           :when (.endsWith (.getName file) ".clj")]
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
     (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
-      (when-let [handler (hashmap 'handler)]
-        ; deref a var, and deref the underlying atom
-        (swap! event-table assoc (.getName file) @@handler))))
+      (if-let [handler (hashmap 'handler)]
+        (if-let [worlds (hashmap 'worlds)]
+          ; @@ for (1) deref a var, and (2) deref the underlying atom
+          (swap! event-table assoc (.getName file) [worlds @@handler])
+          (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
+        (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]
@@ -121,7 +124,7 @@
           org.bukkit.event.EventPriority/NORMAL
           (reify org.bukkit.plugin.EventExecutor
               (execute [_ l evt]
-                (doseq [[script-name handler] @event-table
+                (doseq [[script-name [worlds handler]] @event-table
                         :let [f (handler type-evt)]
                         :when f]
                   (f evt (helper-f evt)))))
