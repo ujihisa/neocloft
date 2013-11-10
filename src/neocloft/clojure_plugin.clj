@@ -95,6 +95,41 @@
              org.bukkit.event.player.PlayerUnleashEntityEvent
              org.bukkit.event.player.PlayerUnregisterChannelEvent
              org.bukkit.event.player.PlayerVelocityEvent]
+             (fn [^org.bukkit.event.entity.EntityEvent evt] (.getEntity evt))
+             [org.bukkit.event.entity.CreatureSpawnEvent
+              org.bukkit.event.entity.CreeperPowerEvent
+              org.bukkit.event.entity.EntityChangeBlockEvent
+              org.bukkit.event.entity.EntityCombustByBlockEvent
+              org.bukkit.event.entity.EntityCombustByEntityEvent
+              org.bukkit.event.entity.EntityCreatePortalEvent
+              org.bukkit.event.entity.EntityDamageByBlockEvent
+              org.bukkit.event.entity.EntityDamageByEntityEvent
+              org.bukkit.event.entity.EntityDeathEvent
+              org.bukkit.event.entity.EntityExplodeEvent
+              org.bukkit.event.entity.EntityInteractEvent
+              org.bukkit.event.entity.EntityPortalEnterEvent
+              org.bukkit.event.entity.EntityRegainHealthEvent
+              org.bukkit.event.entity.EntityShootBowEvent
+              org.bukkit.event.entity.EntityTameEvent
+              org.bukkit.event.entity.EntityTargetEvent
+              org.bukkit.event.entity.EntityTargetLivingEntityEvent
+              org.bukkit.event.entity.EntityTeleportEvent
+              org.bukkit.event.entity.EntityPortalEvent
+              org.bukkit.event.entity.EntityPortalExitEvent
+              org.bukkit.event.entity.EntityUnleashEvent
+              org.bukkit.event.entity.ExplosionPrimeEvent
+              org.bukkit.event.entity.FoodLevelChangeEvent
+              org.bukkit.event.entity.HorseJumpEvent
+              org.bukkit.event.entity.ItemDespawnEvent
+              org.bukkit.event.entity.ItemSpawnEvent
+              org.bukkit.event.entity.PigZapEvent
+              org.bukkit.event.entity.ExpBottleEvent
+              org.bukkit.event.entity.PotionSplashEvent
+              org.bukkit.event.entity.ProjectileLaunchEvent
+              org.bukkit.event.entity.SheepDyeWoolEvent
+              org.bukkit.event.entity.SheepRegrowWoolEvent
+              org.bukkit.event.entity.SlimeSplitEvent
+              ]
              (fn [^org.bukkit.event.block.BlockEvent evt] (.getBlock evt))
              [org.bukkit.event.block.BlockBreakEvent
               org.bukkit.event.block.BlockBurnEvent
