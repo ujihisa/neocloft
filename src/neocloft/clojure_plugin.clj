@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io])
   (:require [clojure.string :as s])
   (:gen-class
-    :name com.github.ujihisa.Neocloft.ClojurePlugin
+    :name io.github.ujihisa.Neocloft.ClojurePlugin
     :extends org.bukkit.plugin.java.JavaPlugin
     :implements [org.bukkit.event.Listener]
     :exposes-methods {onEnable -onEnable}))
