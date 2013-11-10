@@ -11,3 +11,15 @@ optional
 
 * `plugins/neocloft-jruby.jar`
 * `plugins/neocloft-jruby/*.rb`
+
+## Author
+
+Tatsuhiro Ujihisa <mailto: ujihisa at gmail com>
+
+## License
+
+GPLv3 or later
+
+## links
+
+* <https://github.com/supermomonga/neocloft-jruby>
