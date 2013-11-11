@@ -22,7 +22,7 @@ GPLv3 or later
 
 ## Jenkins
 
-<http://jenkins.raa0121.info/github-webhook/>
+<http://jenkins.raa0121.info/>
 
 ## links
 
