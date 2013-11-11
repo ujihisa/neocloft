@@ -20,6 +20,10 @@ Tatsuhiro Ujihisa <mailto: ujihisa at gmail com>
 
 GPLv3 or later
 
+## Jenkins
+
+<http://jenkins.raa0121.info/github-webhook/>
+
 ## links
 
 * <https://github.com/supermomonga/neocloft-jruby>
