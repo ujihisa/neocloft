@@ -1,6 +1,6 @@
 # neocloft
 
-![logo by TukushiGamo](http://cache.gyazo.com/7b9008d5b18adbeacb97bfc8f916337a.png)
+![logo by TukushiGamo](http://cache.gyazo.com/adfe4c4f5d6889ae9d4780b9d3a31003.png)
 
 ## Usage
 
