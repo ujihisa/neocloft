@@ -1,6 +1,6 @@
 # neocloft
 
-A Clojure library designed to ... well, that part is up to you.
+![logo by TukushiGamo](http://cache.gyazo.com/7b9008d5b18adbeacb97bfc8f916337a.png)
 
 ## Usage
 
