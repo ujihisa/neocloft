@@ -39,9 +39,7 @@
 (defn -onEnable [self]
   (dosync (ref-set plugin-obj self))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
-          :let [_ (prn 'debug 'file file)]
           :when (.endsWith (.getName file) ".clj")]
-    (prn 'debug 'clj-file file)
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
     (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
       (if-let [handler (hashmap 'handler)]
@@ -51,7 +49,6 @@
           (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
         (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
 
-  (prn 'debug 'event-table event-table)
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt]
             {(fn [^org.bukkit.event.player.PlayerEvent evt] (.getPlayer evt))
