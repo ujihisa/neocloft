@@ -158,13 +158,13 @@
           pm type-evt self
           org.bukkit.event.EventPriority/NORMAL
           (reify org.bukkit.plugin.EventExecutor
-              (execute [_ l evt]
-                (doseq [[script-name [worlds handler]] @event-table
-                        :let [f (handler type-evt)]
-                        :when f]
-                  (let [obj (helper-f evt)]
-                    (when (contains? worlds (.getName (.getWorld obj)))
-                      (f evt obj))))))
+            (execute [_ l evt]
+              (doseq [[script-name [worlds handler]] @event-table
+                      :let [f (handler type-evt)]
+                      :when f]
+                (let [obj (helper-f evt)]
+                  (when (contains? worlds (.getName (.getWorld obj)))
+                    (f evt obj))))))
           self)
         (catch org.bukkit.plugin.IllegalPluginAccessException e
           (prn 'ignoring type-evt))))))
