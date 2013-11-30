@@ -1,6 +1,7 @@
 (ns neocloft.clojure-plugin
   (:require [clojure.java.io :as io])
   (:require [clojure.string :as s])
+  (:require [clojure.tools.nrepl.server :as nrepl.server])
   (:gen-class
     :name io.github.ujihisa.Neocloft.ClojurePlugin
     :extends org.bukkit.plugin.java.JavaPlugin
@@ -9,6 +10,7 @@
 
 (def event-table (atom {}))
 (def plugin-obj (ref nil))
+(declare nrepl-server)
 
 ; helper for user plugins
 (defmacro defh [evt-name handler args & body]
@@ -140,6 +142,7 @@
       org.bukkit.event.block.SignChangeEvent]})
 
 (defn -onEnable [self]
+  (defonce nrepl-server (nrepl.server/start-server :port 7888))
   (dosync (ref-set plugin-obj self))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
@@ -174,6 +177,7 @@
           (prn 'ignoring type-evt))))))
 
 (defn -onDisable [self]
+  (nrepl.server/stop-server nrepl-server)
   (prn 'clojure-on-disable self))
 
 #_(defn -onCommand [self sender command label args]
