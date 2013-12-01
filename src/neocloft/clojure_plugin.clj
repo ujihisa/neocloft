@@ -29,7 +29,8 @@
      (fn [] ~@exps)
      ~tick))
 
-(defn- clj-filename->ns-symbol
+; private
+(defn clj-filename->ns-symbol
   "aaa_bbb.clj as string -> 'neocloft.aaa-bbb as symbol"
   [clj-filename]
   (assert (.endsWith clj-filename ".clj"))
