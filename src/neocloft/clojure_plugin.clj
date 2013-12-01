@@ -148,7 +148,7 @@
     (let [port (-> self .getConfig (.getLong "nrepl-port" 7888))]
       (prn 'debug 'nrepl-port port)
       (ref-set nrepl-server
-               (nrepl.server/start-server :port 7888))))
+               (nrepl.server/start-server :port port))))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
