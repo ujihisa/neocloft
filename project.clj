@@ -1,6 +1,6 @@
 (defproject neocloft "1.0.0-SNAPSHOT"
   :description "TBD"
-  :dependencies [[org.bukkit/bukkit "1.6.4-R2.1-SNAPSHOT"]
+  :dependencies [[org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]
                  [org.clojure/clojure "1.5.1"]
                  #_[org.jruby/jruby-complete "1.7.6"]
                  [org.clojure/tools.nrepl "0.2.3"]]
