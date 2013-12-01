@@ -10,7 +10,7 @@
 
 (def event-table (atom {}))
 (def plugin-obj (ref nil))
-(declare nrepl-server)
+(def nrepl-server (ref nil))
 
 ; helper for user plugins
 (defmacro defh [evt-name handler args & body]
@@ -143,8 +143,11 @@
       org.bukkit.event.block.SignChangeEvent]})
 
 (defn -onEnable [self]
-  (defonce nrepl-server (nrepl.server/start-server :port 7888))
-  (dosync (ref-set plugin-obj self))
+  (dosync
+    (ref-set plugin-obj self)
+    (let [port (-> self .getConfig (.getLong "nrepl-port"))]
+      (ref-set nrepl-server
+               (nrepl.server/start-server :port (or port 7888)))))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))

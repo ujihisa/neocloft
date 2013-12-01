@@ -24,6 +24,12 @@ GPLv3 or later
 
 <http://jenkins.raa0121.info/>
 
+## Config
+
+config.yml
+
+* nrepl-port (default: 7888)
+
 ## links
 
 * <https://github.com/supermomonga/neocloft-jruby>
