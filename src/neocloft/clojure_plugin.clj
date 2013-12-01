@@ -145,9 +145,10 @@
 (defn -onEnable [self]
   (dosync
     (ref-set plugin-obj self)
-    (let [port (-> self .getConfig (.getLong "nrepl-port"))]
+    (let [port (-> self .getConfig (.getLong "nrepl-port" 7888))]
+      (prn 'debug 'nrepl-port port)
       (ref-set nrepl-server
-               (nrepl.server/start-server :port (or port 7888)))))
+               (nrepl.server/start-server :port 7888))))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
           :when (.endsWith (.getName file) ".clj")]
     (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
@@ -181,7 +182,7 @@
           (prn 'ignoring type-evt))))))
 
 (defn -onDisable [self]
-  (nrepl.server/stop-server nrepl-server)
+  (nrepl.server/stop-server @nrepl-server)
   (prn 'clojure-on-disable self))
 
 #_(defn -onCommand [self sender command label args]
