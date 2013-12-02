@@ -7,5 +7,5 @@
     (.playEffect world loc Effect/SMOKE (byte i))))
 
 (defn play-sound [loc sound volume pitch]
-  (let [world (.getWorld player) ]
+  (let [world (.getWorld loc)]
     (.playSound world loc sound volume pitch)))
