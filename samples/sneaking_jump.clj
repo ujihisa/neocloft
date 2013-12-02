@@ -1,5 +1,6 @@
 (ns neocloft.sneaking-jump
   (:use [neocloft.clojure-plugin :only [defh later sec]])
+  (:require [neocloft.helper :as helper])
   (:import [org.bukkit Material Sound]))
 (def handler (atom {}))
 (def worlds #{"world"})
