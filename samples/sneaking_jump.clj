@@ -25,6 +25,7 @@
                    (or 0) (dec))))))
     (when (= 3 (@player-sneak-counter player))
       (helper/play-sound (.getLocation player) Sound/BAT_TAKEOFF 0.8 (rand-nth [0.5 0.8 1.2]))
+      (.setFallDistance player 0.0)
       (.setVelocity player (let [v (.getVelocity player)]
                              (.setY v (+ 1.0 (.getY v)))
                              v)))))
