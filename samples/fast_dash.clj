@@ -15,9 +15,7 @@
         (swap! dash-id-table assoc player dash-id)
         (later (sec 4)
           (when (= dash-id (@dash-id-table player))
-            (let [world (.getWorld player)
-                  loc (.getLocation player)]
-              (.playEffect world loc Effect/SMOKE (byte 0)))
+            (helper/smoke-effect (.getLocation player))
             (.setWalkSpeed player 0.6)))))
     (do
       (.setWalkSpeed player 0.2)
