@@ -41,7 +41,6 @@
     (helper/play-sound (.getLocation player) Sound/BAT_TAKEOFF 0.8 0.5)
     (helper/play-sound (.getLocation player) Sound/BAT_TAKEOFF 0.8 1.0)
     (.setFallDistance player 0.0)
-    (prn (.getName player) "jump")
     (.setVelocity player (doto (.getVelocity player)
                            (.setY 0.9))))
   (if (.isOnGround player)
@@ -51,7 +50,6 @@
 ; only to give information to move event that if it was triggered as knockback or not.
 (defh entity.EntityDamageByEntityEvent handler [evt entity]
   (when (instance? Player entity)
-    (prn (.getName entity) "punch")
     (swap! during-knockback conj entity)
     (later (sec 1)
       (swap! during-knockback disj entity))))
