@@ -23,10 +23,7 @@
                  (-> (@player-sneak-counter player)
                    (or 0) (dec))))))
     (when (= 3 (@player-sneak-counter player))
-      (let [world (.getWorld player)
-            loc (.getLocation player)
-            sound Sound/BAT_TAKEOFF]
-        (.playSound world loc sound 0.8 (rand-nth [0.5 0.8 1.2])))
+      (helper/play-sound loc Sound/BAT_TAKEOFF 0.8 (rand-nth [0.5 0.8 1.2]))
       (.setVelocity player (let [v (.getVelocity player)]
                              (.setY v (+ 1.0 (.getY v)))
                              v)))))
