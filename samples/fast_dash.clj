@@ -1,6 +1,6 @@
 (ns neocloft.fast-dash
   (:use [neocloft.clojure-plugin :only [defh later sec]])
-  (:import [org.bukkit Material Effect]))
+  (:import [org.bukkit Material]))
 (def handler (atom {}))
 (def worlds #{"world"})
 
