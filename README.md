@@ -6,6 +6,7 @@
 
 * `plugins/neocloft.jar`
 * `plugins/neocloft/*.clj`
+* `plugins/neocloft/*.jar`
 
 optional
 
