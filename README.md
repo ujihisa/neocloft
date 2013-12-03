@@ -1,4 +1,4 @@
-# neocloft
+# neocloft [![Build Status](https://travis-ci.org/raa0121/neocloft.png?branch=travis)](https://travis-ci.org/raa0121/neocloft)
 
 ![logo by TukushiGamo](http://cache.gyazo.com/adfe4c4f5d6889ae9d4780b9d3a31003.png)
 
