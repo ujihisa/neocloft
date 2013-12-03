@@ -1,7 +1,8 @@
 (ns neocloft.clojure-plugin
   (:require [clojure.java.io :as io])
-  (:require [clojure.string :as s])
-  (:require [clojure.tools.nrepl.server :as nrepl.server])
+  (:require [clojure.string :as s]
+            [clojure.tools.nrepl.server :as nrepl.server]
+            [cemerick.pomegranate :as pomegranate])
   (:gen-class
     :name io.github.ujihisa.Neocloft.ClojurePlugin
     :extends org.bukkit.plugin.java.JavaPlugin
@@ -36,6 +37,16 @@
   (assert (.endsWith clj-filename ".clj"))
   (let [base-name (-> clj-filename
                     (s/replace #"\.clj" "")
+                    (s/replace #"_" "-"))]
+    (symbol (format "neocloft.%s" base-name))))
+
+(defn jar-filename->ns-symbol
+  "neocloft_aaa_bbb-*.jar as string -> 'neocloft.aaa-bbb as symbol"
+  [jar-filename]
+  (assert (.endsWith jar-filename ".jar"))
+  (let [base-name (-> jar-filename
+                    (s/replace #"^neocloft-" "")
+                    (s/replace #"-.*\.jar$" "")
                     (s/replace #"_" "-"))]
     (symbol (format "neocloft.%s" base-name))))
 
@@ -163,7 +174,10 @@
               (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
             (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
       (.endsWith (.getName file) ".jar")
-      (prn "TODO use pomegranate for " (.getName file))))
+      (do
+        (prn "TODO use pomegranate for " (.getAbsolutePath file))
+        (pomegranate/add-classpath (.getAbsolutePath file))
+        (prn 'ns-interns (ns-interns (jar-filename->ns-symbol (.getName file)))))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt] map-of-helper-evttypes
