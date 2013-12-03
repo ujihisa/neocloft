@@ -151,15 +151,20 @@
                (nrepl.server/start-server :port port))
       (prn @nrepl-server)))
   (doseq [file (file-seq (io/file (.getDataFolder self)))
-          :when (.endsWith (.getName file) ".clj")]
-    (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
-    (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
-      (if-let [handler (hashmap 'handler)]
-        (if-let [worlds (hashmap 'worlds)]
-          ; @@ for (1) deref a var, and (2) deref the underlying atom
-          (swap! event-table assoc (.getName file) [@worlds @@handler])
-          (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
-        (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
+          ]
+    (cond
+      (.endsWith (.getName file) ".clj")
+      (do
+        (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
+        (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
+          (if-let [handler (hashmap 'handler)]
+            (if-let [worlds (hashmap 'worlds)]
+              ; @@ for (1) deref a var, and (2) deref the underlying atom
+              (swap! event-table assoc (.getName file) [@worlds @@handler])
+              (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
+            (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
+      (.endsWith (.getName file) ".jar")
+      (prn "TODO use pomegranate for " (.getName file))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt] map-of-helper-evttypes
