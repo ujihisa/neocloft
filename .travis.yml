@@ -7,3 +7,11 @@ jdk:
   - oraclejdk7
 
 script: lein2 do test
+
+notifications:
+  webhooks:
+    urls:
+      - http://travis-ci.herokuapp.com/mcujim
+    on_success: never
+    on_failure: always
+    on_start: false
