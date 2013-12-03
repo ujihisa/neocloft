@@ -173,9 +173,14 @@
             (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))))
       (.endsWith (.getName file) ".jar")
       (do
-        (prn "TODO use pomegranate for " (.getAbsolutePath file))
         (pomegranate/add-classpath (.getAbsolutePath file))
-        (prn 'ns-interns (ns-interns (jar-filename->ns-symbol (.getName file)))))))
+        (let [new-namespace (jar-filename->ns-symbol (.getName file))]
+          (require new-namespace)
+          (let [interns (ns-interns (jar-filename->ns-symbol (.getName file)))]
+            (prn 'ns-interns interns)
+            (when-let [on-enable (get interns 'on-enable)]
+              (prn "DEBUG" 'calling 'on-enable)
+              (on-enable self)))))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt] map-of-helper-evttypes

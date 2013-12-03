@@ -10,7 +10,7 @@
    :dependencies [[org.clojure/clojure "1.5.1"]
                   [org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]
                   [neocloft "1.0.0-SNAPSHOT"]
-                  [compojure "1.1.6"]
-                  [ring/ring-jetty-adapter "1.2.1"]]}}
-  :dependencies []
+                  ]}}
+  :dependencies [[compojure "1.1.6"]
+                 [ring/ring-jetty-adapter "1.2.1"]]
   :aot :all)
