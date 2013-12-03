@@ -41,14 +41,12 @@
     (symbol (format "neocloft.%s" base-name))))
 
 (defn jar-filename->ns-symbol
-  "neocloft_aaa_bbb-*.jar as string -> 'neocloft.aaa-bbb as symbol"
+  "neocloft-aaa-bbb-0.1-SNAPSHOT-standalone.jar as string -> 'neocloft-aaa-bbb.core as symbol"
   [jar-filename]
   (assert (.endsWith jar-filename ".jar"))
   (let [base-name (-> jar-filename
-                    (s/replace #"^neocloft-" "")
-                    (s/replace #"-.*\.jar$" "")
-                    (s/replace #"_" "-"))]
-    (symbol (format "neocloft.%s" base-name))))
+                    (s/replace #"-\d+[\.\d+]*(-SNAPSHOT)?-standalone\.jar$" ""))]
+    (symbol (format "%s.core" base-name))))
 
 (def map-of-helper-evttypes
   {(fn [^org.bukkit.event.player.PlayerEvent evt] (.getPlayer evt))
