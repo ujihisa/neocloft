@@ -150,8 +150,7 @@
       (ref-set nrepl-server
                (nrepl.server/start-server :port port))
       (prn @nrepl-server)))
-  (doseq [file (file-seq (io/file (.getDataFolder self)))
-          ]
+  (doseq [file (file-seq (io/file (.getDataFolder self)))]
     (cond
       (.endsWith (.getName file) ".clj")
       (do
