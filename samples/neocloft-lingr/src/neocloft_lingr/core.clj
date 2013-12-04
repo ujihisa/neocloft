@@ -31,7 +31,14 @@
   #_(ANY "*" {body :body headers :headers}
     (any-handler body headers)))
 
+(def jetty-server (ref nil))
+
 (defn on-enable [plugin]
   (let [port (-> plugin .getConfig (.getLong "neocloft-lingr.port" 8126))]
     (prn 'starting 'neocloft-lingr :port port)
-    (jetty/run-jetty routes {:port port :join? false})))
+    (dosync
+      (ref-set jetty-server
+               (jetty/run-jetty routes {:port port :join? false :max-threads 2})))))
+
+(defn on-disable [plugin]
+  (some-> @jetty-server .stop))
