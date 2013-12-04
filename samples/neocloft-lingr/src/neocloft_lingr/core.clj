@@ -1,10 +1,10 @@
 (ns neocloft-lingr.core
   (:use [neocloft.clojure-plugin :only [defh later sec]]
         [compojure.core :only (defroutes GET POST ANY)]
-        #_[clojure.data.json :only (read-json)]
-        [ring.adapter.jetty :only (run-jetty)])
+        #_[clojure.data.json :only (read-json)])
   (:require [neocloft.helper :as helper]
-            [clojure.string :as s])
+            [clojure.string :as s]
+            [ring.adapter.jetty :as jetty])
   (:import [org.bukkit Material])
   (:gen-class))
 (def handler (atom {}))
@@ -34,4 +34,4 @@
 (defn on-enable [plugin]
   (let [port (-> plugin .getConfig (.getLong "neocloft-lingr.port" 8126))]
     (prn 'starting 'neocloft-lingr :port port)
-    (run-jetty routes {:port port :join? false})))
+    (jetty/run-jetty routes {:port port :join? false})))
