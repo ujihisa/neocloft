@@ -12,6 +12,7 @@
 (def event-table (atom {}))
 (def plugin-obj (ref nil))
 (def nrepl-server (ref nil))
+(def jar-plugins "filename -> interns" (atom {}))
 
 ; helper for user plugins
 (defmacro defh [evt-name handler args & body]
@@ -180,7 +181,8 @@
             (prn 'ns-interns interns)
             (when-let [on-enable (get interns 'on-enable)]
               (prn "DEBUG" 'calling 'on-enable)
-              (on-enable self)))))))
+              (on-enable self)
+              (swap! jar-plugins assoc (.getAbsolutePath file) interns)))))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt] map-of-helper-evttypes
@@ -205,6 +207,9 @@
 
 (defn -onDisable [self]
   (nrepl.server/stop-server @nrepl-server)
+  (doseq [[jar-fname jar-ns] @jar-plugins]
+    (when-let [f (get jar-ns 'on-disable)]
+      (f self)))
   (prn 'clojure-on-disable self))
 
 #_(defn -onCommand [self sender command label args]
