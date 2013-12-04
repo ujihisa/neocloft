@@ -62,12 +62,19 @@
 
 (defh player.PlayerJoinEvent handler [evt player]
   (let [pname (.getName player)]
-    (post-in-mcujm (format "(%s) %s logged in." "DEV" pname))))
+    (post-in-mcujm (format "%s logged in." pname))))
+
+(defh player.PlayerQuitEvent handler [evt player]
+  (let [pname (.getName player)]
+    (post-in-mcujm (format "%s logged out." pname))))
+
+(defh player.PlayerRespawnEvent handler [evt player]
+  (let [pname (.getName player)]
+    (post-in-mcujm (format "%s respanwed." pname))))
 
 (defh player.AsyncPlayerChatEvent handler [evt player]
   (let [pname (.getName player)
         message (.getMessage evt)]
-    (prn 'chat @bot-verifier (format "[%s] %s" "DEV" pname message))
-    (post-in-mcujm (format "(%s) <%s> %s" "(DEV)" pname message))))
+    (post-in-mcujm (format "%s: %s" pname message))))
 
 ; vim: lispwords+=defh,later :
