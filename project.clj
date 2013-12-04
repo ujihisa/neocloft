@@ -6,7 +6,8 @@
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/core.match "0.2.0"]
                  [com.cemerick/pomegranate "0.2.0"]
-                 ; This is tricky. just to disable legacy httpclient-4.1.2 for neocloft apps to be able to use buggy clj-http
+                 ; This is tricky. just to disable legacy httpclient-4.1.2
+                 ; for neocloft apps to be able to use buggy clj-http
                  [org.apache.httpcomponents/httpclient "4.3"]]
   :license {:name "GNU GPL v3+"
             :url "http://www.gnu.org/licenses/gpl-3.0.en.html"}
