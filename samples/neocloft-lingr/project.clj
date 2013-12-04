@@ -9,8 +9,8 @@
                    "http://repo.bukkit.org/service/local/repositories/snapshots/content/"}
    :dependencies [[org.clojure/clojure "1.5.1"]
                   [org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]
-                  [neocloft "1.0.0-SNAPSHOT"]
-                  ]}}
+                  [neocloft "1.0.0-SNAPSHOT"]]}}
   :dependencies [[compojure "1.1.6"]
-                 [ring/ring-jetty-adapter "1.2.1"]]
+                 [ring/ring-jetty-adapter "1.2.1"]
+                 [clj-http "0.7.7"]]
   :aot :all)

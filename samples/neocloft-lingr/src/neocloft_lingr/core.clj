@@ -4,7 +4,8 @@
         #_[clojure.data.json :only (read-json)])
   (:require [neocloft.helper :as helper]
             [clojure.string :as s]
-            [ring.adapter.jetty :as jetty])
+            [ring.adapter.jetty :as jetty]
+            [clj-http.client])
   (:import [org.bukkit Material])
   (:gen-class))
 (def handler (atom {}))
@@ -32,9 +33,13 @@
     (any-handler body headers)))
 
 (def jetty-server (ref nil))
+(def bot-verifier (ref nil))
 
 (defn on-enable [plugin]
-  (let [port (-> plugin .getConfig (.getLong "neocloft-lingr.port" 8126))]
+  (let [config (.getConfig plugin)
+        port (.getLong config "lingr.port" 8126)]
+    (dosync
+      (ref-set bot-verifier (.getString config "lingr.bot-verifier")))
     (prn 'starting 'neocloft-lingr :port port)
     (dosync
       (ref-set jetty-server
@@ -42,3 +47,27 @@
 
 (defn on-disable [plugin]
   (some-> @jetty-server .stop))
+
+(defn post [room msg]
+  (clj-http.client/post
+    "http://lingr.com/api/room/say"
+    {:form-params
+      {:room room
+      :bot 'cloft
+      :text (str msg)
+      :bot_verifier @bot-verifier} }))
+
+(defn post-in-mcujm [msg]
+  (post "mcujm" msg))
+
+(defh player.PlayerJoinEvent handler [evt player]
+  (let [pname (.getName player)]
+    (post-in-mcujm (format "(%s) %s logged in." "DEV" pname))))
+
+(defh player.AsyncPlayerChatEvent handler [evt player]
+  (let [pname (.getName player)
+        message (.getMessage evt)]
+    (prn 'chat @bot-verifier (format "[%s] %s" "DEV" pname message))
+    (post-in-mcujm (format "(%s) <%s> %s" "(DEV)" pname message))))
+
+; vim: lispwords+=defh,later :
