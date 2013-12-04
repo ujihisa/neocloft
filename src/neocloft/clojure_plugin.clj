@@ -165,9 +165,9 @@
       (.endsWith (.getName file) ".clj")
       (do
         (clojure.lang.Compiler/loadFile (.getAbsolutePath file))
-        (let [hashmap (ns-interns (clj-filename->ns-symbol (.getName file)))]
-          (if-let [handler (hashmap 'handler)]
-            (if-let [worlds (hashmap 'worlds)]
+        (let [intern-map (ns-interns (clj-filename->ns-symbol (.getName file)))]
+          (if-let [handler (intern-map 'handler)]
+            (if-let [worlds (intern-map 'worlds)]
               ; @@ for (1) deref a var, and (2) deref the underlying atom
               (swap! event-table assoc (.getName file) [@worlds @@handler])
               (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
@@ -177,12 +177,18 @@
         (pomegranate/add-classpath (.getAbsolutePath file))
         (let [new-namespace (jar-filename->ns-symbol (.getName file))]
           (require new-namespace)
-          (let [interns (ns-interns (jar-filename->ns-symbol (.getName file)))]
-            (prn 'ns-interns interns)
-            (when-let [on-enable (get interns 'on-enable)]
+          (let [intern-map (ns-interns (jar-filename->ns-symbol (.getName file)))]
+            ; TODO the following block is a dead copy from above
+            (if-let [handler (intern-map 'handler)]
+              (if-let [worlds (intern-map 'worlds)]
+                ; @@ for (1) deref a var, and (2) deref the underlying atom
+                (swap! event-table assoc (.getName file) [@worlds @@handler])
+                (prn (format "skipping %s due to its missing worlds." (.getAbsolutePath file))))
+              (prn (format "skipping %s due to its missing handler." (.getAbsolutePath file))))
+            (when-let [on-enable (get intern-map 'on-enable)]
               (prn "DEBUG" 'calling 'on-enable)
               (on-enable self)
-              (swap! jar-plugins assoc (.getAbsolutePath file) interns)))))))
+              (swap! jar-plugins assoc (.getAbsolutePath file) intern-map)))))))
 
   (let [pm (-> self (.getServer) (.getPluginManager))]
     (doseq [[helper-f types-evt] map-of-helper-evttypes
