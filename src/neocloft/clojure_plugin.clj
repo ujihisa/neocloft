@@ -211,6 +211,16 @@
         (catch org.bukkit.plugin.IllegalPluginAccessException e
           (prn 'ignoring type-evt))))))
 
+(defn -onCommand [^org.bukkit.command.CommandSender sender ^org.bukkit.command.Command cmd ^String label ^String[] args]
+  (prn 'on-command sender label args)
+  (let [[cmd & args] (vec args)]
+    (case cmd
+      "reload"
+      (do
+        (prn "let's reload it")
+        true)
+      false)))
+
 (defn -onDisable [self]
   (nrepl.server/stop-server @nrepl-server)
   (doseq [[jar-fname jar-ns] @jar-plugins]
