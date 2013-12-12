@@ -53,7 +53,7 @@
     "http://lingr.com/api/room/say"
     {:form-params
       {:room room
-      :bot 'cloft
+      :bot 'neocloft
       :text (str msg)
       :bot_verifier @bot-verifier} }))
 
