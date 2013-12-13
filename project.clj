@@ -20,4 +20,4 @@
                  "http://repo.bukkit.org/service/local/repositories/snapshots/content/"}
   :javac-options ["-d" "classes/" "-Xlint:deprecation"]
   :aot :all
-  :eval-in :leiningen)
+  #_(:eval-in :leiningen))
