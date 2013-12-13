@@ -1,8 +1,13 @@
 (defproject neocloft "1.0.0-SNAPSHOT"
   :description "TBD"
+  #_:profiles
+  #_{:dev
+   {:repositories {"org.bukkit"
+                   "http://repo.bukkit.org/service/local/repositories/snapshots/content/"}
+   :dependencies [[org.clojure/clojure "1.5.1"]
+                  [org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]]}}
   :dependencies [[org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]
                  [org.clojure/clojure "1.5.1"]
-                 #_[org.jruby/jruby-complete "1.7.6"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/core.match "0.2.0"]
                  [com.cemerick/pomegranate "0.2.0"]
@@ -14,4 +19,5 @@
   :repositories {"org.bukkit"
                  "http://repo.bukkit.org/service/local/repositories/snapshots/content/"}
   :javac-options ["-d" "classes/" "-Xlint:deprecation"]
-  :aot :all)
+  :aot :all
+  :eval-in :leiningen)

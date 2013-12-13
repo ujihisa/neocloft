@@ -13,6 +13,12 @@ optional
 * `plugins/neocloft-jruby.jar`
 * `plugins/neocloft-jruby/*.rb`
 
+## Run
+
+Download `clojure-1.5.1.jar` at your craftbukkit dir.
+
+Copy `run` there and execute it.
+
 ## Author
 
 Tatsuhiro Ujihisa <mailto: ujihisa at gmail com>

@@ -8,10 +8,10 @@
     :extends org.bukkit.plugin.java.JavaPlugin
     :implements [org.bukkit.event.Listener]
     :exposes-methods {onEnable -onEnable}))
-
 (def event-table (atom {}))
 (def plugin-obj (ref nil))
 (def nrepl-server (ref nil))
+
 (def jar-plugins "filename -> interns" (atom {}))
 
 ; helper for user plugins
@@ -153,6 +153,7 @@
       org.bukkit.event.block.SignChangeEvent]})
 
 (defn -onEnable [self]
+
   (dosync
     (ref-set plugin-obj self)
     (let [port (-> self .getConfig (.getLong "nrepl-port" 7888))]
@@ -211,22 +212,22 @@
         (catch org.bukkit.plugin.IllegalPluginAccessException e
           (prn 'ignoring type-evt))))))
 
-(defn -onCommand [^org.bukkit.command.CommandSender sender ^org.bukkit.command.Command cmd ^String label ^String[] args]
-  (prn 'on-command sender label args)
-  (let [[cmd & args] (vec args)]
-    (case cmd
-      "reload"
-      (do
-        (prn "let's reload it")
-        true)
-      false)))
-
 (defn -onDisable [self]
   (nrepl.server/stop-server @nrepl-server)
   (doseq [[jar-fname jar-ns] @jar-plugins]
     (when-let [f (get jar-ns 'on-disable)]
       (f self)))
   (prn 'clojure-on-disable self))
+
+(defn -onCommand [self ^org.bukkit.command.CommandSender sender ^org.bukkit.command.Command cmd ^String label ^"[Ljava.lang.String;" args]
+  (let [[subcmd & args] (vec args)]
+    (case subcmd
+      "reload"
+      (do
+        (prn "let's reload it" :sender sender :cmd cmd :label label :args args)
+        #_(-onDisable self)
+        true)
+      false)))
 
 #_(defn -onCommand [self sender command label args]
   (prn 'clojure-on-command sender command label args))
