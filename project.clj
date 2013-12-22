@@ -6,7 +6,7 @@
                    "http://repo.bukkit.org/service/local/repositories/snapshots/content/"}
    :dependencies [[org.clojure/clojure "1.5.1"]
                   [org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]]}}
-  :dependencies [[org.bukkit/bukkit "1.7.2-R0.1-SNAPSHOT"]
+  :dependencies [[org.bukkit/bukkit "1.7.2-R0.3-SNAPSHOT"]
                  [org.clojure/clojure "1.5.1"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/core.match "0.2.0"]
